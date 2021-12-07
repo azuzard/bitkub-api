@@ -87,7 +87,7 @@ class BitkubAPI {
         };
         const data = await this.apiSender("get", params, "/api/market/ticker");
         if (data.errordata) return { error: data };
-        if (data.error !== 0) return { error: this.geterrorDescription(data.error) };
+        // if (data.error !== 0) return { error: this.geterrorDescription(data.error) };
 
         return data;
     }
