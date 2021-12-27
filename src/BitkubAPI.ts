@@ -8,7 +8,7 @@ require("dotenv").config();
 // const res = async () => console.log(await bitkubAPI.ticker('THB_XLM'));
 // const res = async () => console.log(await bitkubAPI.placebid('THB_XLM', 1000000, 10, 'limit'));
 // res();
-class BitkubAPI {
+export class BitkubAPI {
     constructor(key?: string, secret?: string) {
         this.key = key ?? process.env.API_KEY_KUB;
         this.secret = secret ?? process.env.API_SECRET_KUB;
@@ -81,14 +81,12 @@ class BitkubAPI {
         return data;
     }
 
-    async ticker(symbol?: string) {
+    async ticker(symbol: string) {
         const params = {
             sym: symbol, // string The symbol (optional)
         };
         const data = await this.apiSender("get", params, "/api/market/ticker");
         if (data.errordata) return { error: data };
-        // if (data.error !== 0) return { error: this.geterrorDescription(data.error) };
-
         return data;
     }
 
@@ -550,4 +548,4 @@ class BitkubAPI {
     }
 }
 
-export default BitkubAPI;
+// export default BitkubAPI;
