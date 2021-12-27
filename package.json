@@ -3,12 +3,12 @@
     "version": "0.0.1",
     "description": "API for Bitkub exchange nodejs versions.",
     "main": "./src/trader.ts",
+    "type": "module",
     "scripts": {
         "build": "tsc",
         "watch": "tsc -w",
         "start": "node ./dist/trader.js",
-        "build&run": "tsc && npm run start",
-        "builddev&run": "tsc /src/trader.ts && node ./dist/trader.js",
+        "buildrun": "tsc && node ./dist/trader.js",
         "test": "echo \\\"Error: no test specified\\\" && exit 1"
     },
     "keywords": [

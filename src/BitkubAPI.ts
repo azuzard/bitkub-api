@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createHmac } from "crypto"; // just used one time.
-require("dotenv").config();
+import "dotenv/config.js";
 
 // How to use.
 // import  BitkubAPI from "./BitkubAPI";
@@ -10,16 +10,17 @@ require("dotenv").config();
 // res();
 export class BitkubAPI {
     constructor(key?: string, secret?: string) {
-        this.key = key ?? process.env.API_KEY_KUB;
-        this.secret = secret ?? process.env.API_SECRET_KUB;
+        this.key = key ?? process.env.API_KEY_KUB ?? "not found";
+        this.secret = secret ?? process.env.API_SECRET_KUB ?? "not found";
     }
 
     key: string;
     secret: string;
     BITKUB_ROOT_URL = process.env.BITKUB_ROOT_URL ?? "https://api.bitkub.com"; // to Public the constant.
 
-    private async apiSecureSender(req, params, urlapi: string) {
+    private async apiSecureSender(req: any, params: any, urlapi: string) {
         try {
+            this.checknokey();
             params.sig = this.signTime(params);
             const { data } = await axios({
                 method: req,
@@ -37,8 +38,9 @@ export class BitkubAPI {
         }
     }
 
-    private async apiSender(req, params, urlapi: string) {
+    private async apiSender(req: any, params: any, urlapi: string) {
         try {
+            this.checknokey();
             // const { data, status, statusText, headers, config, request }
             const { data } = await axios({
                 method: req,
@@ -50,6 +52,10 @@ export class BitkubAPI {
         } catch (error) {
             return { errordata: error };
         }
+    }
+
+    private checknokey() {
+        if (this.key == "not found" || this.secret == "not found") throw new Error("key not found");
     }
 
     private signTime(time: any) {
@@ -81,7 +87,7 @@ export class BitkubAPI {
         return data;
     }
 
-    async ticker(symbol: string) {
+    async ticker(symbol?: string) {
         const params = {
             sym: symbol, // string The symbol (optional)
         };
@@ -136,12 +142,12 @@ export class BitkubAPI {
 
     async tradingview(symbol: string, resolution: string, from: number, to: number) {
         const params = {
-            symbol: symbol, // string The symbol (e.g. BTC_THB)
+            symbol: symbol, // string The symbol (e.g. BTC_THB) !!!! BTC_THB it not th same other api
             resolution: resolution, // string Chart resolution (1, 5, 15, 60, 240, 1D)
             from: from, // int Timestamp of the starting time (e.g. 1633424427)
             to: to, // int Timestamp of the starting time (e.g. 1633424427)
         };
-        const data = await this.apiSender("get", params, "/api/market/tradingview");
+        const data = await this.apiSender("get", params, "/tradingview/history");
         if (data.errordata) return { error: data };
         return data;
     }
