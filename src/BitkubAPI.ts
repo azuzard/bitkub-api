@@ -2,7 +2,7 @@ import axios from "axios";
 import { createHmac } from "crypto"; // just used one time.
 import "dotenv/config.js";
 
-// How to use.
+// TODO How to use.
 // import  BitkubAPI from "./BitkubAPI";
 // const bitkubAPI = new BitkubAPI();
 // const res = async () => console.log(await bitkubAPI.ticker('THB_XLM'));
