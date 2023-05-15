@@ -1,30 +1,30 @@
 {
-    "name": "bitkubapi-node",
-    "version": "0.0.1",
-    "description": "API for Bitkub exchange nodejs versions.",
-    "main": "./src/trader.ts",
-    "type": "module",
-    "scripts": {
-        "build": "tsc",
-        "watch": "tsc -w",
-        "start": "node ./dist/trader.js",
-        "buildrun": "tsc && npm start",
-        "test": "echo \\\"Error: no test specified\\\" && exit 1"
-    },
-    "keywords": [
-        "Bitkub",
-        "API"
-    ],
-    "author": "sema toghem",
-    "license": "MIT",
-    "dependencies": {
-        "axios": "^0.24.0",
-        "dotenv": "^10.0.0",
-        "typescript": "^4.5.2"
-    },
-    "devDependencies": {
-        "@types/node": "^16.11.12",
-        "@types/ws": "^8.2.2",
-        "ws": "^8.4.0"
-    }
+  "name": "bitkubapi-node",
+  "version": "0.0.1",
+  "description": "API for Bitkub exchange nodejs versions.",
+  "type": "module",
+  "scripts": {
+    "trader": "ts-node-esm ./src/trader.ts",
+    "ticker": "ts-node-esm ./src/ticker.ts",
+    "testjs": "node ./src/ticker.js",
+    "build": "tsc ./src/ticker.ts",
+    "start": "node ./src/ticker.js",
+    "buildrun": "npm run build && npm run start"
+  },
+  "keywords": [
+    "Bitkub",
+    "API"
+  ],
+  "author": "sema toghem",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "dotenv": "^16.0.1",
+    "typescript": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.12",
+    "@types/ws": "^8.2.2",
+    "ws": "^8.4.0"
+  }
 }
