@@ -1,8 +1,9 @@
 {
-  "name": "bitkubapi-node",
+  "name": "bitkub-api",
   "version": "0.0.1",
   "description": "API for Bitkub exchange nodejs versions.",
   "type": "module",
+  "main": "./src/bitkub-api.js",
   "scripts": {
     "trader": "ts-node-esm ./src/trader.ts",
     "ticker": "ts-node-esm ./src/ticker.ts",
