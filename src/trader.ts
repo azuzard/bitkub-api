@@ -1,4 +1,4 @@
-import { BitkubApi } from "./bitkub-api.js"
+import { BitkubApi } from "bitkub-api"
 import WebSocket from "ws"
 
 const bitkubapi = new BitkubApi("30cc2acadc1059a90d53e99cb476ca65", "21fecae001af0e326e4a4399d45f7c19")

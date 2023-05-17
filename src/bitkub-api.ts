@@ -97,9 +97,7 @@ export class BitkubApi {
       lmt: limit, //  int No. of limit to query recent trades
     }
     const data = await this.apiSender("get", params, "/api/market/trades")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async bids(symbol: string, limit: number) {
@@ -108,9 +106,7 @@ export class BitkubApi {
       lmt: limit, //  int No. of limit to query open buy orders
     }
     const data = await this.apiSender("get", params, "/api/market/bids")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async asks(symbol: string, limit: number) {
@@ -119,9 +115,7 @@ export class BitkubApi {
       lmt: limit, //  int No. of limit to query open sell orders
     }
     const data = await this.apiSender("get", params, "/api/market/asks")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async books(symbol: string, limit: number) {
@@ -130,9 +124,7 @@ export class BitkubApi {
       lmt: limit, //  int No. of limit to query open orders
     }
     const data = await this.apiSender("get", params, "/api/market/books")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
   /**
    *
@@ -169,17 +161,13 @@ export class BitkubApi {
   async wallet() {
     const params = { ts: Date.now() }
     const data = await this.apiSecureSender("post", params, "/api/market/wallet")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async balances() {
     const params = { ts: Date.now() }
     const data = await this.apiSecureSender("post", params, "/api/market/balances")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
   /**
    *
@@ -200,9 +188,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/market/v2/place-bid")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
   /**
    *
@@ -223,9 +209,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/market/place-bid/test")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
   /**
    *
@@ -246,9 +230,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/market/v2/place-ask")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
   /**
    *
@@ -269,9 +251,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/market/place-ask/test")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
   /**
    *
@@ -290,9 +270,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/market/place-ask-by-fiat")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
   /**
    *
@@ -322,9 +300,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/market/my-open-orders")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
   /**
    *
@@ -345,9 +321,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/market/my-order-history")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
   /**
    *
@@ -366,9 +340,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/market/order-info")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async cryptoAddresses(page?: number, limit?: number) {
@@ -378,9 +350,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/crypto/addresses")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
   /**
    *
@@ -399,9 +369,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/crypto/withdraw")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
   /**
    *
@@ -420,9 +388,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/crypto/internal-withdraw")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
   async cryptoDepositHistory(page?: number, limit?: number) {
     const params = {
@@ -431,9 +397,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/crypto/deposit-history")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async cryptoWithdrawHistory(page?: number, limit?: number) {
@@ -443,9 +407,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/crypto/withdraw-history")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async cryptoGenerateAddress(symbol: string) {
@@ -454,9 +416,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/crypto/generate-address")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async fiatAccounts(page?: number, limit?: number) {
@@ -466,9 +426,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/fiat/accounts")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async fiatWithdraw(idbank: string, amount: number) {
@@ -478,9 +436,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/fiat/withdraw")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async fiatDepositHistory(page?: number, limit?: number) {
@@ -490,9 +446,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/fiat/deposit-history")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async fiatWithdrawHistory(page?: number, limit?: number) {
@@ -502,9 +456,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/fiat/withdraw-history")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async wstoken() {
@@ -512,9 +464,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/market/wstoken")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async userLimits() {
@@ -522,9 +472,7 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/user/limits")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
   }
 
   async userTradingCredits() {
@@ -532,9 +480,13 @@ export class BitkubApi {
       ts: Date.now(),
     }
     const data = await this.apiSecureSender("post", params, "/api/user/trading-credits")
-    if (data.errordata) return { error: data }
-    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return data
+    return this.checkData(data)
+  }
+
+  private checkData(_data: any) {
+    if (_data.errordata) _data = { error: _data }
+    else if (_data.error !== 0) _data = { error: this.geterrorDescription(_data.error) }
+    return _data
   }
 
   private geterrorDescription(errcode: number) {

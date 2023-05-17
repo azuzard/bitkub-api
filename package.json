@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "API for Bitkub exchange nodejs versions.",
   "type": "module",
-  "main": "./src/bitkub-api.js",
+  "main": "dist/bitkub-api.js",
+  "types": "dist/bitkub-api.d.ts",
   "scripts": {
     "trader": "ts-node-esm ./src/trader.ts",
     "ticker": "ts-node-esm ./src/ticker.ts",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@types/node": "^16.11.12",
     "@types/ws": "^8.2.2",
+    "bitkub-api": "^0.0.1",
     "ws": "^8.4.0"
   }
 }
