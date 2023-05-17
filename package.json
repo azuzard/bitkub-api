@@ -2,16 +2,12 @@
   "name": "bitkub-api",
   "version": "0.1.0",
   "description": "API for Bitkub exchange nodejs versions.",
-  "type": "module",
-  "main": "dist/bitkub-api.js",
-  "types": "dist/bitkub-api.d.ts",
+  "main": "bitkub-api.js",
+  "types": "bitkub-api.d.ts",
   "scripts": {
-    "trader": "ts-node-esm ./src/trader.ts",
-    "ticker": "ts-node-esm ./src/ticker.ts",
-    "testjs": "node ./src/ticker.js",
-    "build": "tsc ./src/ticker.ts",
-    "start": "node ./src/ticker.js",
-    "buildrun": "npm run build && npm run start"
+    "trader": "ts-node-esm trader.ts",
+    "build": "tsc bitkub-api.ts",
+    "start": "node trader.js"
   },
   "keywords": [
     "Bitkub",
@@ -19,15 +15,9 @@
   ],
   "author": "sema toghem",
   "license": "MIT",
-  "dependencies": {
-    "axios": "^0.24.0",
-    "dotenv": "^16.0.1",
-    "typescript": "^4.5.2"
-  },
   "devDependencies": {
-    "@types/node": "^16.11.12",
-    "@types/ws": "^8.2.2",
-    "bitkub-api": "^0.0.1",
+    "@types/node": "^20.1.7",
+    "axios": "^0.24.0",
     "ws": "^8.4.0"
   }
 }
