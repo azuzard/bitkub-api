@@ -1,34 +1,34 @@
-import axios from "axios"
-import { createHmac } from "crypto" // just used one time.
+import axios from 'axios'
+import { createHmac } from 'crypto' // just used one time.
 
 // TODO How to use.
 // import { BitkubApi } from "./BitkubApi"
 // const bitkubApi = new BitkubApi()
 // const res = async () => console.log(await bitkubApi.ticker("THB_XLM"))
-// const res = async () => console.log(await bitkubApi.placebid("THB_XLM", 1000000, 10, "limit"))
+// const res = async () => console.log(await bitkubApi.placeBid("THB_XLM", 1000000, 10, "limit"))
 // res()
 
 export class BitkubApi {
   constructor(key?: string, secret?: string) {
-    this.key = key ?? process.env.API_KEY_KUB ?? "nokey"
-    this.secret = secret ?? process.env.API_SECRET_KUB ?? "nokey"
+    this.key = key ?? process.env.API_KEY_KUB ?? 'nokey'
+    this.secret = secret ?? process.env.API_SECRET_KUB ?? 'nokey'
   }
 
   key: string
   secret: string
-  BITKUB_ROOT_URL = process.env.BITKUB_ROOT_URL ?? "https://api.bitkub.com" // to Public the constant.
+  BITKUB_ROOT_URL = process.env.BITKUB_ROOT_URL ?? 'https://api.bitkub.com' // to Public the constant.
 
   private async apiSecureSender(req: any, params: any, urlapi: string) {
     try {
       this.checknokey()
-      params.sig = createHmac("sha256", this.secret).update(JSON.stringify(params)).digest("hex")
+      params.sig = createHmac('sha256', this.secret).update(JSON.stringify(params)).digest('hex')
       const { data } = await axios({
         method: req,
         url: this.BITKUB_ROOT_URL + urlapi,
         headers: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-          "X-BTK-APIKEY": this.key,
+          Accept: 'application/json',
+          'Content-type': 'application/json',
+          'X-BTK-APIKEY': this.key,
         },
         data: params,
       })
@@ -40,7 +40,6 @@ export class BitkubApi {
 
   private async apiSender(req: any, params: any, urlapi: string) {
     try {
-      // this.checknokey()
       // const { data, status, statusText, headers, config, request }
       const { data } = await axios({
         method: req,
@@ -55,28 +54,28 @@ export class BitkubApi {
   }
 
   private checknokey() {
-    if (this.key == "nokey" || this.secret == "nokey") throw "key not found"
+    if (this.key == 'nokey' || this.secret == 'nokey') throw 'key not found'
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////
 
   async status() {
     const params = {}
-    const data = await this.apiSender("get", params, "/api/status")
+    const data = await this.apiSender('get', params, '/api/status')
     if (data.errordata) return { error: data } // unknown error
     return data
   }
 
   async servertime() {
     const params = {}
-    const data = await this.apiSender("get", params, "/api/servertime")
+    const data = await this.apiSender('get', params, '/api/servertime')
     if (data.errordata) return { error: data }
     return { time: data } // json it.
   }
 
   async symbols() {
     const params = {}
-    const data = await this.apiSender("get", params, "/api//market/symbols")
+    const data = await this.apiSender('get', params, '/api//market/symbols')
     if (data.errordata) return { error: data } // unknown error
     if (data.error !== 0) return { error: this.geterrorDescription(data.error) } // bitkub error
     return data
@@ -86,7 +85,7 @@ export class BitkubApi {
     const params = {
       sym: symbol, // string The symbol (optional)
     }
-    const data = await this.apiSender("get", params, "/api/market/ticker")
+    const data = await this.apiSender('get', params, '/api/market/ticker')
     if (data.errordata) return { error: data }
     return data
   }
@@ -96,7 +95,7 @@ export class BitkubApi {
       sym: symbol, // string The symbol
       lmt: limit, //  int No. of limit to query recent trades
     }
-    const data = await this.apiSender("get", params, "/api/market/trades")
+    const data = await this.apiSender('get', params, '/api/market/trades')
     return this.checkData(data)
   }
 
@@ -105,7 +104,7 @@ export class BitkubApi {
       sym: symbol, // string The symbol
       lmt: limit, //  int No. of limit to query open buy orders
     }
-    const data = await this.apiSender("get", params, "/api/market/bids")
+    const data = await this.apiSender('get', params, '/api/market/bids')
     return this.checkData(data)
   }
 
@@ -114,7 +113,7 @@ export class BitkubApi {
       sym: symbol, // string The symbol
       lmt: limit, //  int No. of limit to query open sell orders
     }
-    const data = await this.apiSender("get", params, "/api/market/asks")
+    const data = await this.apiSender('get', params, '/api/market/asks')
     return this.checkData(data)
   }
 
@@ -123,9 +122,10 @@ export class BitkubApi {
       sym: symbol, // string The symbol
       lmt: limit, //  int No. of limit to query open orders
     }
-    const data = await this.apiSender("get", params, "/api/market/books")
+    const data = await this.apiSender('get', params, '/api/market/books')
     return this.checkData(data)
   }
+
   /**
    *
    * @param symbol - string The symbol (e.g. BTC_THB) !!!! BTC_THB it not th same other api
@@ -141,7 +141,7 @@ export class BitkubApi {
       from: from,
       to: to,
     }
-    const data = await this.apiSender("get", params, "/tradingview/history")
+    const data = await this.apiSender('get', params, '/tradingview/history')
     if (data.errordata) return { error: data }
     return data
   }
@@ -151,7 +151,7 @@ export class BitkubApi {
       sym: symbol, // string The symbol
       lmt: limit, //  int Depth size
     }
-    const data = await this.apiSender("get", params, "/api/market/depth")
+    const data = await this.apiSender('get', params, '/api/market/depth')
     if (data.errordata) return { error: data }
     return data
   }
@@ -160,15 +160,16 @@ export class BitkubApi {
 
   async wallet() {
     const params = { ts: Date.now() }
-    const data = await this.apiSecureSender("post", params, "/api/market/wallet")
+    const data = await this.apiSecureSender('post', params, '/api/market/wallet')
     return this.checkData(data)
   }
 
   async balances() {
     const params = { ts: Date.now() }
-    const data = await this.apiSecureSender("post", params, "/api/market/balances")
+    const data = await this.apiSecureSender('post', params, '/api/market/balances')
     return this.checkData(data)
   }
+
   /**
    *
    * @param symbol - string The symbol
@@ -187,9 +188,10 @@ export class BitkubApi {
       client_id: client_id,
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/market/v2/place-bid")
+    const data = await this.apiSecureSender('post', params, '/api/market/v2/place-bid')
     return this.checkData(data)
   }
+
   /**
    *
    * @param symbol - string The symbol
@@ -208,9 +210,10 @@ export class BitkubApi {
       client_id: strid,
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/market/place-bid/test")
+    const data = await this.apiSecureSender('post', params, '/api/market/place-bid/test')
     return this.checkData(data)
   }
+
   /**
    *
    * @param symbol - string The symbol
@@ -229,9 +232,10 @@ export class BitkubApi {
       client_id: client_id,
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/market/v2/place-ask")
+    const data = await this.apiSecureSender('post', params, '/api/market/v2/place-ask')
     return this.checkData(data)
   }
+
   /**
    *
    * @param symbol - string The symbol
@@ -250,9 +254,10 @@ export class BitkubApi {
       client_id: strid,
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/market/place-ask/test")
+    const data = await this.apiSecureSender('post', params, '/api/market/place-ask/test')
     return this.checkData(data)
   }
+
   /**
    *
    * @param symbol - string The symbol
@@ -269,9 +274,10 @@ export class BitkubApi {
       typ: type,
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/market/place-ask-by-fiat")
+    const data = await this.apiSecureSender('post', params, '/api/market/place-ask-by-fiat')
     return this.checkData(data)
   }
+
   /**
    *
    * @param symbol - string The symbol
@@ -288,10 +294,26 @@ export class BitkubApi {
       hash: hash,
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/market/v2/cancel-order")
+    const data = await this.apiSecureSender('post', params, '/api/market/v2/cancel-order')
     if (data.errordata) return { error: data }
     if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
-    return { msg: "success" } // to json
+    return { msg: 'success' } // to json
+  }
+
+  /**
+   *
+   * @param hash - string Cancel an order with order hash (optional). You don't need to specify sym, id, and sd when you specify order hash.
+   * @returns
+   */
+  async cancelOrderHash(hash: string) {
+    const params = {
+      hash: hash,
+      ts: Date.now(),
+    }
+    const data = await this.apiSecureSender('post', params, '/api/market/v2/cancel-order')
+    if (data.errordata) return { error: data }
+    if (data.error !== 0) return { error: this.geterrorDescription(data.error) }
+    return { msg: 'success' } // to json
   }
 
   async myOpenOrders(symbol: string) {
@@ -299,9 +321,10 @@ export class BitkubApi {
       sym: symbol, // string The symbol
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/market/my-open-orders")
+    const data = await this.apiSecureSender('post', params, '/api/market/my-open-orders')
     return this.checkData(data)
   }
+
   /**
    *
    * @param symbol - string The symbol
@@ -320,9 +343,10 @@ export class BitkubApi {
       end: end,
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/market/my-order-history")
+    const data = await this.apiSecureSender('post', params, '/api/market/my-order-history')
     return this.checkData(data)
   }
+
   /**
    *
    * @param symbol - string The symbol
@@ -339,7 +363,21 @@ export class BitkubApi {
       hash: hashorder,
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/market/order-info")
+    const data = await this.apiSecureSender('post', params, '/api/market/order-info')
+    return this.checkData(data)
+  }
+
+  /**
+   *
+   * @param hash - string Lookup an order with order hash (optional). You don't need to specify sym, id, and sd when you specify order hash
+   * @returns
+   */
+  async orderInfoHash(hash: string) {
+    const params = {
+      hash: hash,
+      ts: Date.now(),
+    }
+    const data = await this.apiSecureSender('post', params, '/api/market/order-info')
     return this.checkData(data)
   }
 
@@ -349,9 +387,10 @@ export class BitkubApi {
       lmt: limit, // int Limit (optional)
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/crypto/addresses")
+    const data = await this.apiSecureSender('post', params, '/api/crypto/addresses')
     return this.checkData(data)
   }
+
   /**
    *
    * @param cur - string Currency for withdrawal (e.g. BTC, ETH)
@@ -368,9 +407,10 @@ export class BitkubApi {
       mem: mem,
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/crypto/withdraw")
+    const data = await this.apiSecureSender('post', params, '/api/crypto/withdraw')
     return this.checkData(data)
   }
+
   /**
    *
    * @param cur - string Currency for withdrawal (e.g. BTC, ETH)
@@ -387,16 +427,17 @@ export class BitkubApi {
       mem: mem,
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/crypto/internal-withdraw")
+    const data = await this.apiSecureSender('post', params, '/api/crypto/internal-withdraw')
     return this.checkData(data)
   }
+
   async cryptoDepositHistory(page?: number, limit?: number) {
     const params = {
       p: page, // int Page (optional)
       lmt: limit, // int Limit (optional)
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/crypto/deposit-history")
+    const data = await this.apiSecureSender('post', params, '/api/crypto/deposit-history')
     return this.checkData(data)
   }
 
@@ -406,7 +447,7 @@ export class BitkubApi {
       lmt: limit, // int Limit (optional)
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/crypto/withdraw-history")
+    const data = await this.apiSecureSender('post', params, '/api/crypto/withdraw-history')
     return this.checkData(data)
   }
 
@@ -415,7 +456,7 @@ export class BitkubApi {
       sym: symbol, // string Symbol (e.g. THB_BTC, THB_ETH, etc.)
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/crypto/generate-address")
+    const data = await this.apiSecureSender('post', params, '/api/crypto/generate-address')
     return this.checkData(data)
   }
 
@@ -425,7 +466,7 @@ export class BitkubApi {
       lmt: limit, // int Limit (optional)
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/fiat/accounts")
+    const data = await this.apiSecureSender('post', params, '/api/fiat/accounts')
     return this.checkData(data)
   }
 
@@ -435,7 +476,7 @@ export class BitkubApi {
       amt: amount, // float Amount you want to withdraw
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/fiat/withdraw")
+    const data = await this.apiSecureSender('post', params, '/api/fiat/withdraw')
     return this.checkData(data)
   }
 
@@ -445,7 +486,7 @@ export class BitkubApi {
       lmt: limit, // int Limit (optional)
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/fiat/deposit-history")
+    const data = await this.apiSecureSender('post', params, '/api/fiat/deposit-history')
     return this.checkData(data)
   }
 
@@ -455,7 +496,7 @@ export class BitkubApi {
       lmt: limit, // int Limit (optional)
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/fiat/withdraw-history")
+    const data = await this.apiSecureSender('post', params, '/api/fiat/withdraw-history')
     return this.checkData(data)
   }
 
@@ -463,7 +504,7 @@ export class BitkubApi {
     const params = {
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/market/wstoken")
+    const data = await this.apiSecureSender('post', params, '/api/market/wstoken')
     return this.checkData(data)
   }
 
@@ -471,7 +512,7 @@ export class BitkubApi {
     const params = {
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/user/limits")
+    const data = await this.apiSecureSender('post', params, '/api/user/limits')
     return this.checkData(data)
   }
 
@@ -479,7 +520,7 @@ export class BitkubApi {
     const params = {
       ts: Date.now(),
     }
-    const data = await this.apiSecureSender("post", params, "/api/user/trading-credits")
+    const data = await this.apiSecureSender('post', params, '/api/user/trading-credits')
     return this.checkData(data)
   }
 
@@ -492,93 +533,93 @@ export class BitkubApi {
   private geterrorDescription(errcode: number) {
     switch (errcode) {
       case 0:
-        return "No error"
+        return 'No error'
       case 1:
-        return "Invalid JSON payload"
+        return 'Invalid JSON payload'
       case 2:
-        return "Missing X-BTK-APIKEY"
+        return 'Missing X-BTK-APIKEY'
       case 3:
-        return "Invalid API key"
+        return 'Invalid API key'
       case 4:
-        return "API pending for activation"
+        return 'API pending for activation'
       case 5:
-        return "IP not allowed"
+        return 'IP not allowed'
       case 6:
-        return "Missing / invalid signature"
+        return 'Missing / invalid signature'
       case 7:
-        return "Missing timestamp"
+        return 'Missing timestamp'
       case 8:
-        return "Invalid timestamp"
+        return 'Invalid timestamp'
       case 9:
-        return "Invalid user"
+        return 'Invalid user'
       case 10:
-        return "Invalid parameter"
+        return 'Invalid parameter'
       case 11:
-        return "Invalid symbol"
+        return 'Invalid symbol'
       case 12:
-        return "Invalid amount"
+        return 'Invalid amount'
       case 13:
-        return "Invalid rate"
+        return 'Invalid rate'
       case 14:
-        return "Improper rate"
+        return 'Improper rate'
       case 15:
-        return "Amount too low"
+        return 'Amount too low'
       case 16:
-        return "Failed to get balance"
+        return 'Failed to get balance'
       case 17:
-        return "Wallet is empty"
+        return 'Wallet is empty'
       case 18:
-        return "Insufficient balance"
+        return 'Insufficient balance'
       case 19:
-        return "Failed to insert order into db"
+        return 'Failed to insert order into db'
       case 20:
-        return "Failed to deduct balance"
+        return 'Failed to deduct balance'
       case 21:
-        return "Invalid order for cancellation"
+        return 'Invalid order for cancellation'
       case 22:
-        return "Invalid side"
+        return 'Invalid side'
       case 23:
-        return "Failed to update order status"
+        return 'Failed to update order status'
       case 24:
-        return "Invalid order for lookup"
+        return 'Invalid order for lookup'
       case 25:
-        return "KYC level 1 is required to proceed"
+        return 'KYC level 1 is required to proceed'
       case 30:
-        return "Limit exceeds"
+        return 'Limit exceeds'
       case 40:
-        return "Pending withdrawal exists"
+        return 'Pending withdrawal exists'
       case 41:
-        return "Invalid currency for withdrawal"
+        return 'Invalid currency for withdrawal'
       case 42:
-        return "Address is not in whitelist"
+        return 'Address is not in whitelist'
       case 43:
-        return "Failed to deduct crypto"
+        return 'Failed to deduct crypto'
       case 44:
-        return "Failed to create withdrawal record"
+        return 'Failed to create withdrawal record'
       case 45:
-        return "Nonce has to be numeric"
+        return 'Nonce has to be numeric'
       case 46:
-        return "Invalid nonce"
+        return 'Invalid nonce'
       case 47:
-        return "Withdrawal limit exceeds"
+        return 'Withdrawal limit exceeds'
       case 48:
-        return "Invalid bank account"
+        return 'Invalid bank account'
       case 49:
-        return "Bank limit exceeds"
+        return 'Bank limit exceeds'
       case 50:
-        return "Pending withdrawal exists"
+        return 'Pending withdrawal exists'
       case 51:
-        return "Withdrawal is under maintenance"
+        return 'Withdrawal is under maintenance'
       case 52:
-        return "Invalid permission"
+        return 'Invalid permission'
       case 53:
-        return "Invalid internal address"
+        return 'Invalid internal address'
       case 54:
-        return "Address has been deprecated"
+        return 'Address has been deprecated'
       case 90:
-        return "Server error (please contact support)"
+        return 'Server error (please contact support)'
       default:
-        return "Unexpect problems"
+        return 'Unexpect problems'
     }
   }
 }
