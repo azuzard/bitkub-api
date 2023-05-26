@@ -1,6 +1,6 @@
 {
   "name": "bitkub-api",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "API for Bitkub exchange nodejs versions.",
   "main": "bitkub-api.js",
   "types": "bitkub-api.d.ts",
