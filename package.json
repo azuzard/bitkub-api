@@ -6,6 +6,7 @@
   "types": "bitkub-api.d.ts",
   "files": [
     "bitkub-api.js",
+    "bitkub-api.d.ts",
     "package.json",
     "package-lock.json",
     "README.md"
