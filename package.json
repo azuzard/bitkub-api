@@ -4,8 +4,14 @@
   "description": "API for Bitkub exchange nodejs versions.",
   "main": "bitkub-api.js",
   "types": "bitkub-api.d.ts",
+  "files": [
+    "bitkub-api.js",
+    "package.json",
+    "package-lock.json",
+    "README.md"
+  ],
   "scripts": {
-    "trader": "ts-node-esm trader.ts",
+    "trader": "ts-node-esm -T trader.ts",
     "build": "tsc bitkub-api.ts",
     "start": "node trader.js"
   },
