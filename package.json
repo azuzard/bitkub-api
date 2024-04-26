@@ -8,7 +8,6 @@
     "bitkub-api.js",
     "bitkub-api.d.ts",
     "package.json",
-    "package-lock.json",
     "README.md"
   ],
   "scripts": {
@@ -24,8 +23,8 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.1.7",
+    "@types/ws": "^8.5.5",
     "axios": "^0.24.0",
-    "bitkub-api": "^0.1.1",
     "ws": "^8.4.0"
   }
 }
