@@ -36,38 +36,20 @@ export class BitkubApi {
       if (this.key == 'nokey' || this.secret == 'nokey') throw 'key not found'
 
       const timeStamp = Date.now().toString()
-      const sig = createHmac('sha256', this.secret).update(JSON.stringify(timeStamp + req + urlapi + params ? params.toString() : '')).digest('hex')
-      if (req == 'GET') {
-        const { data } = await axios({
-          method: req,
-          url: this.BITKUB_ROOT_URL + urlapi,
-          headers: {
-            Accept: 'application/json',
-            'Content-type': 'application/json',
-            'X-BTK-APIKEY': this.key,
-            'X-BTK-TIMESTAMP': timeStamp,
-            'X-BTK-SIGN': sig,
-          },
-          params: params,
-        })
-        if (data?.error && data.error != 0) return new APIError(this.geterrorDescription(data.error), data.error)
-        return data
-      } else {
-        const { data } = await axios({
-          method: req,
-          url: this.BITKUB_ROOT_URL + urlapi,
-          headers: {
-            Accept: 'application/json',
-            'Content-type': 'application/json',
-            'X-BTK-APIKEY': this.key,
-            'X-BTK-TIMESTAMP': timeStamp,
-            'X-BTK-SIGN': sig,
-          },
-          data: params,
-        })
-        if (data?.error && data.error != 0) return new APIError(this.geterrorDescription(data.error), data.error)
-        return data
-      }
+      const url = this.BITKUB_ROOT_URL + urlapi
+      const sig = createHmac('sha256', this.secret).update(timeStamp + req + urlapi + (Object.is(params, {}) ? params?.toString() : '')).digest('hex')
+      const instance = axios.create({
+        headers: {
+          Accept: 'application/json',
+          'Content-type': 'application/json',
+          'X-BTK-APIKEY': this.key,
+          'X-BTK-TIMESTAMP': timeStamp,
+          'X-BTK-SIGN': sig,
+        },
+      });
+      const { data } = (req == 'GET') ? await instance.get(url, { params }) : await instance.post(url, { data: params })
+      if (data?.error && data.error != 0) return new APIError(this.geterrorDescription(data.error), data.error)
+      return data
     } catch (error) {
       return error
     }
@@ -466,7 +448,7 @@ export class BitkubApi {
       typ: type,
       client_id: client_id
     }
-    return await this.apiSecureSender('POST', params, '/api/v3/market/v2/place-bid')
+    return await this.apiSecureSender('POST', params, '/api/v3/market/place-bid')
   }
 
   /**
@@ -1046,7 +1028,7 @@ export class BitkubApi {
 
   /**
    * Check deposit/withdraw limitations and usage.
-   * @returns {
+   * @returns '{
    "error": 0,
    "result": { 
        "limits": { // limitations by kyc level
@@ -1080,18 +1062,11 @@ export class BitkubApi {
 }`
    */
   async userLimits() {
-    const params = {
-    }
+    const params = {}
     return await this.apiSecureSender('POST', params, '/api/v3/user/limits')
   }
 
   //////////////////////////////////////////////////////////////////////////////////////
-
-  private checkData(data: any) {
-    if (data.errordata) data = { error: data }
-    else if (data.error !== 0) data = { error: this.geterrorDescription(data.error) }
-    return data
-  }
 
   private geterrorDescription(errcode: number): string {
     switch (errcode) {
